@@ -1,0 +1,86 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block our1 %}
+  category
+{% endblock our1 %}
+{% block our2 %}
+  {{category_list.title}}
+{% endblock our2 %}
+{% block content %}
+	<!--================Blog Area =================-->
+  <section class="blog_area section-margin">
+      <div class="container">
+          <div class="row">
+              <div class="col-lg-8 mb-5 mb-lg-0">
+                  <div class="blog_left_sidebar">
+                    {% for post in category_list.blog_posts1.all %}
+                        
+                    
+                        
+                      <article class="blog_item">
+                        <div class="blog_item_img">
+                        {% if post.image %}
+                          <img class="card-img rounded-0" style="max-width:100%" src="{{post.image.url}}" alt="hgftycghvhvhjbh">
+                        {% endif %}
+                          <div class="blog_item_date">
+                            <h3>{{ post.created.day }}</h3>
+                            <p>{{ post.created|date:"M" }}</p>
+                          </div>
+                        </div>
+                        
+                        <div class="blog_details">
+                            <a class="d-inline-block" href="{{ post.get_absolute_url }}">
+                                <h2>{{post.title}}</h2>
+                            </a>
+                            <p>{{post.body|truncatewords:20}}</p>
+                            <ul class="blog-info-link">
+                              <li><a href="#"><i class="far fa-user"></i>{{post.author}}</a></li>
+                              <li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
+                            </ul>
+                        </div>
+                      </article>
+                    {% endfor %}
+                        {% include "pagination.html" with page=page_obj %}
+                  </div>
+              </div>
+              <div class="col-lg-4">
+                  <div class="blog_right_sidebar">
+
+                      <aside class="single_sidebar_widget post_category_widget">
+                        <h4 class="widget_title">Category</h4>
+                        <ul class="list cat-list">
+                          {% for c in category %}
+                          <li>
+                              <a href="{{c.get_absolute_url}}" class="d-flex">
+                                  <p>{{c.title}}</p>
+                                  <p>({{c.blog_posts1.count}})</p>
+                              </a>
+                          </li>
+
+                          {% endfor %}
+                        </ul>
+                      </aside>
+
+
+                      <aside class="single_sidebar_widget instagram_feeds">
+                        <h4 class="widget_title">Instagram Feeds</h4>
+                        <ul class="instagram_row flex-wrap">
+                          {% for i in insta %}
+                            <li>
+                                <a href="{{i.url}}" target="_blank">
+                                  {% if i.img %}
+                                    <img class="img-fluid" src="{{i.img.url}}" alt="">
+                                  {% endif %}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                      </aside>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
+  <!--================Blog Area =================-->
+
+  {% endblock content %}

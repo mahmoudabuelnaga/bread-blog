@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+
+{% block our1 %}
+  {{post.title}}
+{% endblock our1 %}
+{% block our2 %}
+  detail
+{% endblock our2 %}
+{% block content %}
+	<!--================Blog Area =================-->
+	<section class="blog_area single-post-area section-margin">
+			<div class="container">
+					<div class="row">
+							<div class="col-lg-8 posts-list">
+									<div class="single-post">
+													<div class="feature-img">
+                            
+                            {% if post.image %}
+                            <img class="img-fluid" src="{{post.image.url}}" alt="">
+                            {% endif %}
+                              
+													</div>
+											<div class="blog_details">
+													<h2>{{post.title}}</h2>
+                              <ul class="blog-info-link mt-3 mb-4">
+                                <li><a href="#"><i class="ti-user"></i> {{post.author}}</a></li>
+                                {% with comments.count as total_comments %}
+                                  <li><a href="#"><i class="ti-comments"></i> {{total_comments}} comment{% if total_comments >= 2 %}s{% endif %}</a></li>
+                                {% endwith %}
+                                
+                              </ul>
+													<p class="excert">
+														{{post.body}}
+													</p>
+													<p>
+                              {{post.body}}
+                          </p>
+                          <div class="quote-wrapper">
+                            <div class="quotes">
+                                {{post.body}}
+                            </div>
+                          </div>
+                          
+                          
+                          <p>
+                              {{post.body}}
+                          </p>
+                          <p>
+                              {{post.body}}
+                          </p>
+											</div>
+                  </div>
+                  <div class="navigation-top">
+                    <div class="d-sm-flex justify-content-between text-center">
+                      <div class="col-sm-4 text-center my-2 my-sm-0">
+                        <p class="comment-count"><span class="align-middle"><i class="ti-comment"></i></span>{% with comments.count as total_comments %}
+                        {{total_comments}} comment{% if total_comments >= 2 %}s{% endif %}
+                        {% endwith %}</p>
+                      </div>
+                      
+                      <p class="like-info"><span class="align-middle"><i class="ti-social"></i></span><a href="{% url 'post_share' post.id %}">Share</a></p>
+                    </div>
+                  </div>
+
+									<div class="comments-area">
+											<h4>
+                      {% with comments.count as total_comments %}
+                        {{total_comments}} comment{% if total_comments >= 2 %}s{% endif %}
+                      {% endwith %}
+                        </h4>
+                      {% for comment in comments %}
+                        <div class="comment-list">
+                          <div class="single-comment justify-content-between d-flex">
+                            <div class="user justify-content-between d-flex">
+                                <div class="desc">
+                                    <p class="comment">
+                                      {{comment.body}}
+                                    </p>
+
+                                    <div class="d-flex justify-content-between">
+                                      <div class="d-flex align-items-center">
+                                        <h5>
+                                          {{comment.name}}
+                                        </h5>
+                                        <p class="date">{{comment.created}} </p>
+                                      </div>
+                                    </div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                      {% endfor %}
+									</div>
+									<div class="comment-form">
+											<h4>Leave a Reply</h4>
+											<form class="form-contact comment_form" method="POST" action="" id="commentForm">{% csrf_token %}
+                        {% bootstrap_form comment_form %}
+                        <div class="form-group">
+                          {% buttons %}
+                            <button type="submit" class="primary_btn button-contactForm">Send Message</button>
+                          {% endbuttons %}
+                        </div>
+                      </form>
+                  </div>
+                  {% comment %} <div class="album py-5 bg-light">
+                    <div class="container">
+                      <div class="row">
+                        {% for post in similar_posts %}
+                        <div class="col-md-4">
+                          <div class="card mb-4 shadow-sm">
+                            {% if post.image %}
+                              <img src="{{post.image.url}}" class="bd-placeholder-img card-img-top" style="max-width: 100%" alt="">
+                            {% endif %}
+                            <div class="card-body">
+                              <p class="card-text">{{post.body|truncatewords:"24"}}</p>
+                              <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                  <button type="button" class="btn btn-sm btn-outline-secondary"><a href="{{post.get_absolute_url}}">View</a></button>
+                                </div>
+                                <small class="text-muted">9 mins</small>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        {% endfor %}
+                      </div>
+                    </div>
+                  </div> {% endcomment %}
+    
+              </div>
+            
+            
+
+              <div class="col-lg-4">
+                  <div class="blog_right_sidebar">
+                      <aside class="single_sidebar_widget post_category_widget">
+                          <h4 class="widget_title">Category</h4>
+                          <ul class="list cat-list">
+                            {% for c in category %}
+                            <li>
+                                <a href="{{c.get_absolute_url}}" class="d-flex">
+                                    <p>{{c.title}}</p>
+                                    <p>({{c.blog_posts1.count}})</p>
+                                </a>
+                            </li>
+  
+                            {% endfor %}
+                          </ul>
+                        </aside>
+  
+  
+                      <aside class="single_sidebar_widget popular_post_widget">
+                          <h3 class="widget_title">Recent Post</h3>
+                          {% for post in similar_posts %}
+                            <div class="media post_item">
+                              {% if post.image %}
+                                <img style="max-width: 100%" src="{{post.image.url}}" alt="post">
+                              {% endif %}
+                                <div class="media-body">
+                                    <a href="{{post.get_absolute_url}}">
+                                        <h3>{{post.title}}</h3>
+                                    </a>
+                                    <p>{{post.created}}</p>
+                                </div>
+                            </div>
+                          {% endfor %}
+                          <aside class="single_sidebar_widget tag_cloud_widget">
+                            <h4 class="widget_title">Tag Clouds</h4>
+                            <ul class="list">
+                              {% for tag in post.tags.all %}
+                                <li>
+                                    <a href="{% url 'post_detail_by_tag' tag.slug %}">{{ tag.name }}</a>
+                                </li>
+                              {% endfor %}
+                            </ul>
+                        </aside>
+
+                      <aside class="single_sidebar_widget instagram_feeds">
+                        <h4 class="widget_title">Instagram Feeds</h4>
+                        <ul class="instagram_row flex-wrap">
+                          {% for i in insta %}
+                            <li>
+                                <a href="{{i.url}}" target="_blank">
+                                  {% if i.img %}
+                                    <img class="img-fluid" src="{{i.img.url}}" alt="">
+                                  {% endif %}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                      </aside>
+              </div>
+          </div>
+      </div>
+  </section>
+	<!--================Blog Area =================-->
+{% endblock content %}

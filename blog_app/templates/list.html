@@ -1,0 +1,15 @@
+
+{% for post in posts %}
+<h3>{{post.created.day}}| {{post.created|date:"M"}}</h3>
+<div>
+        {% if post.image %}
+        <img class="" src="{{post.image.url}}" alt="hgftycghvhvhjbh">
+      {% endif %}
+
+
+</div>
+
+    <h1>{{post.title}}</h1>
+    <p>{{post.body}}</p>
+{% endfor %}
+    
