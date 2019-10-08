@@ -55,12 +55,19 @@
                   <div class="navigation-top">
                     <div class="d-sm-flex justify-content-between text-center">
                       <div class="col-sm-4 text-center my-2 my-sm-0">
-                        <p class="comment-count"><span class="align-middle"><i class="ti-comment"></i></span>{% with comments.count as total_comments %}
-                        {{total_comments}} comment{% if total_comments >= 2 %}s{% endif %}
-                        {% endwith %}</p>
+                        <p class="primary_btn button-contactForm">
+                          <span>
+                            <span class="align-middle">
+                              <i class="ti-comment"></i>
+                            </span>
+                            {% with comments.count as total_comments %}
+                              {{total_comments}} comment{% if total_comments >= 2 %}s{% endif %}
+                            {% endwith %}
+                          </span>
+                        </p>
                       </div>
                       
-                      <p class="like-info"><span class="align-middle"><i class="ti-social"></i></span><a href="{% url 'post_share' post.id %}">Share</a></p>
+                      <button type="submit" class="primary_btn button-contactForm"><a href="{% url 'post_share' post.id %}">Share</a></button>
                     </div>
                   </div>
 
@@ -99,7 +106,7 @@
                         {% bootstrap_form comment_form %}
                         <div class="form-group">
                           {% buttons %}
-                            <button type="submit" class="primary_btn button-contactForm">Send Message</button>
+                            <button type="submit" class="primary_btn button-contactForm">add comment</button>
                           {% endbuttons %}
                         </div>
                       </form>
