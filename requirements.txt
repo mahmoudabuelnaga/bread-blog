@@ -1,5 +1,5 @@
 beautifulsoup4==4.9.0
-Django==2.2.11
+Django==2.2.24
 django-bootstrap4==1.1.1
 django-taggit==1.2.0
 Pillow==7.1.2
